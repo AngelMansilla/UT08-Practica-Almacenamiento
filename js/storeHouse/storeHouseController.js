@@ -19,56 +19,50 @@ class StoreHouseController {
   #storeHouseView;
 
   #loadStoreHouseObjects() {
-    fetch("./datos.json")
-      .then(response => {
-        return response.json();
-      }).then(function (data) {
-        let categories = data.cat;
-        let stores = data.store;
-        let pros = data.pro;
-        let gras = data.gra;
-        let rams = data.ram;
+    let storeHouseModel = this.#storeHouseModel;
+    fetch('./datos.json').then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      data.cat.forEach(cat => {
+        storeHouseModel.addCategory(new Category(cat.title, data.cat.description));
       });
 
-    let cat1 = new Category("Gaming RGB", "Componentes destinados al gaming con leds añadidos");
-    let cat2 = new Category("Gaming minimal", "Componetes destinados al gaming con un diseño minimalista");
-    let cat3 = new Category("Ofimatica", "Componentes destinados para un uso básico");
+      data.store.forEach(store => {
+        storeHouseModel.addShop(new Store(store.CIF, store.name, store.address, store.phone, new Coords(store.coords.lon, store.coords.lat)));
+      })
 
+      let cat1 = storeHouseModel.getCategory("Gaming RGB");
+      let cat2 = storeHouseModel.getCategory("Gaming minimal");
+      let cat3 = storeHouseModel.getCategory("Ofimatica");
 
-    let shop1 = new Store("12345", "Amazon", "Ramirez de prado, 5, 28045, Madrid, Madrid, España", "34697632123", new Coords(7698769.3, 647));
-    let shop2 = new Store("54321", "PC Componentes", "Avenida de Europa (pg ind las Salinas Parc. 2-5 y 2-6), , Alhama de Murcia, Murcia, España", "34785723102", new Coords(54231.23, 15423.2));
-    let shop3 = new Store("32145", "Aliexpress", "Carrer de Laureà Miró, 20, 08950 Esplugues de Llobregat, Barcelona, España.", "34612321102", new Coords(143, 23));
+      let shop1 = storeHouseModel.getStore("Amazon");
+      let shop2 = storeHouseModel.getStore("PC Componentes");
+      let shop3 = storeHouseModel.getStore("Aliexpress");
 
+      let p1 = new Processor(data.pro[0].serialNumber, data.pro[0].name, data.pro[0].description, data.pro[0].price, data.pro[0].tax, data.pro[0].images, data.pro[0].speed, data.pro[0].socket, data.pro[0].chipset, data.pro[0].graphics);
+      let p2 = new Processor(data.pro[1].serialNumber, data.pro[1].name, data.pro[1].description, data.pro[1].price, data.pro[1].tax, data.pro[1].images, data.pro[1].speed, data.pro[1].socket, data.pro[1].chipset, data.pro[1].graphics);
+      let p3 = new Graphic_Card(data.gra[0].serialNumber, data.gra[0].name, data.gra[0].description, data.gra[0].price, data.gra[0].tax, data.gra[0].images, data.gra[0].brand, data.gra[0].model, data.gra[0].memory);
+      let p4 = new Graphic_Card(data.gra[1].serialNumber, data.gra[1].name, data.gra[1].description, data.gra[1].price, data.gra[1].tax, data.gra[1].images, data.gra[1].brand, data.gra[1].model, data.gra[1].memory);
+      let p5 = new RAM(data.ram[0].serialNumber, data.ram[0].name, data.ram[0].description, data.ram[0].price, data.ram[0].tax, data.ram[0].images, data.ram[0].technology, data.ram[0].capacity, data.ram[0].speed);
+      let p6 = new RAM(data.ram[1].serialNumber, data.ram[1].name, data.ram[1].description, data.ram[1].price, data.ram[1].tax, data.ram[1].images, data.ram[1].technology, data.ram[1].capacity, data.ram[1].speed);
 
-    let p1 = new Processor("432214321423", "I5 10400F", "Not bad", 125, 21, "i510400f.png", "2.9GHz", "LG20", "R300", "No");
-    let p2 = new Processor("13141111", "I5 12400F", "GOOD", 175, 21, "i512400f.png", "3.5GHz", "LG20", "R300", "No");
-    let p3 = new Graphic_Card("432214321429", "3080", "So GOOD", 1225, 21, "3080.png", "NVIDIA", "basic", "10GB");
-    let p4 = new Graphic_Card("23423151234", "3060 ti", "GOOD", 525, 21, "3060ti.png", "NVIDIA", "TI1", "8GB");
-    let p5 = new RAM("14321423", "Kingstom", "bad", 35, 21, "kingstom8gb.png", "DDR2", "8GB", "2666MHz");
-    let p6 = new RAM("413531", "ASUS", "Not bad", 55, 21, "asus4gb.png", "DDR2", "4GB", "2666MHz");
-
-    this.#storeHouseModel.addShop(shop1);
-    this.#storeHouseModel.addShop(shop2);
-    this.#storeHouseModel.addShop(shop3);
-    this.#storeHouseModel.addCategory(cat1);
-    this.#storeHouseModel.addCategory(cat2);
-    this.#storeHouseModel.addCategory(cat3);
-    this.#storeHouseModel.addProduct(p6, [cat3]);
-    this.#storeHouseModel.addProduct(p2, [cat2]);
-    this.#storeHouseModel.addProduct(p3, [cat3]);
-    this.#storeHouseModel.addProduct(p4, [cat1, cat2]);
-    this.#storeHouseModel.addProduct(p5, [cat2, cat3]);
-    this.#storeHouseModel.addProductInShop(p2, shop1, [cat2.title]);
-    this.#storeHouseModel.addProductInShop(p1, shop1, [cat1.title]);
-    this.#storeHouseModel.addProductInShop(p2, shop2, [cat2.title]);
-    this.#storeHouseModel.addProductInShop(p3, shop3, [cat3.title]);
-    this.#storeHouseModel.addProductInShop(p4, shop1, [cat1.title, cat2.title]);
-    this.#storeHouseModel.addProductInShop(p6, shop2, [cat2.title, cat3.title]);
-    this.#storeHouseModel.addQuantityProductInShop(p3, shop3, 5);
-    this.#storeHouseModel.addQuantityProductInShop(p2, shop1, 7);
-    this.#storeHouseModel.addQuantityProductInShop(p2, shop2, 3);
-    this.#storeHouseModel.addQuantityProductInShop(p6, shop2, 9);
-    this.#storeHouseModel.addQuantityProductInShop(p4, shop1, 2);
+      storeHouseModel.addProduct(p6, [cat3]);
+      storeHouseModel.addProduct(p2, [cat2]);
+      storeHouseModel.addProduct(p3, [cat3]);
+      storeHouseModel.addProduct(p4, [cat1, cat2]);
+      storeHouseModel.addProduct(p5, [cat2, cat3]);
+      storeHouseModel.addProductInShop(p2, shop1, [cat2.title]);
+      storeHouseModel.addProductInShop(p1, shop1, [cat1.title]);
+      storeHouseModel.addProductInShop(p2, shop2, [cat2.title]);
+      storeHouseModel.addProductInShop(p3, shop3, [cat3.title]);
+      storeHouseModel.addProductInShop(p4, shop1, [cat1.title, cat2.title]);
+      storeHouseModel.addProductInShop(p6, shop2, [cat2.title, cat3.title]);
+      storeHouseModel.addQuantityProductInShop(p3, shop3, 5);
+      storeHouseModel.addQuantityProductInShop(p2, shop1, 7);
+      storeHouseModel.addQuantityProductInShop(p2, shop2, 3);
+      storeHouseModel.addQuantityProductInShop(p6, shop2, 9);
+      storeHouseModel.addQuantityProductInShop(p4, shop1, 2);
+    });
   }
 
   constructor(storeHouseModel, storeHouseView) {
@@ -91,7 +85,6 @@ class StoreHouseController {
 
   onLoad = () => {
     this.#loadStoreHouseObjects();
-
     this.onLogin();
   }
 
@@ -115,7 +108,7 @@ class StoreHouseController {
       this.#storeHouseView.showLoginMenu();
       this.#storeHouseView.bindLoginMenu(this.handleLoginForm);
     } else {
-       this.#storeHouseView.showAdministracion();
+      this.#storeHouseView.showAdministracion();
       this.#storeHouseView.bindAdministracionMenu(
         this.handleNewCategoryForm,
         this.handleRemoveCategoryForm,
@@ -389,11 +382,24 @@ class StoreHouseController {
 
   handleBackup = () => {
     let datos = JSON.stringify(this.#storeHouseModel.categories) + JSON.stringify(this.#storeHouseModel.stores);
-    let fs = require('fs');
-    let fecha = new Date(Date.now()).toDateString();
-    fs.writeFile('./backup/archivo' + fecha + '.json', datos, 'utf8', (err) => {
-      if (err) throw err;
-      console.log('The file has been saved!');
+    let base = location.protocol + '//' + location.host + location.pathname;
+    let url = new URL('submitForm.php', base);
+    let formData = new FormData();
+    let blob = new Blob([datos], { type: "text/xml" });
+    formData.append("blobField", blob);
+    formData.append("categories", JSON.stringify(this.#storeHouseModel.categories));
+    formData.append("stores", JSON.stringify(this.#storeHouseModel.stores));
+
+    fetch(url, {
+      method: 'post',
+      body: formData
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      console.dir(data);
+    }).catch(function (err) {
+      console.log('No se ha recibido respuesta.');
+      console.log(err.toString());
     });
   }
 }

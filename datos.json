@@ -19,21 +19,30 @@
       "name": "Amazon",
       "address:": "Ramirez de prado, 5, 28045, Madrid, Madrid, España",
       "phone": "34697632123",
-      "coords": "7698769.3, 647"
+      "coords": {
+        "lon": "7698769.3",
+        "lat": "647"
+      }
     },
     {
       "CIF": "54321",
       "name": "PC Componentes",
       "address:": "Avenida de Europa (pg ind las Salinas Parc. 2-5 y 2-6), , Alhama de Murcia, Murcia, España",
       "phone": "34785723102",
-      "coords": "54231.23, 15423.2"
+      "coords": {
+        "lon": "54231.23",
+        "lat": "15423.2"
+      }
     },
     {
       "CIF": "32145",
       "name": "Aliexpress",
       "address:": "Carrer de Laureà Miró, 20, 08950 Esplugues de Llobregat, Barcelona, España.",
       "phone": "34612321102",
-      "coords": "143, 23"
+      "coords": {
+        "lon": "143",
+        "lat": "23"
+      }
     }
   ],
   "pro": [
