@@ -57,16 +57,61 @@ function newCategoryValidation(handler) {
 function newStoreValidation(handler) {
   let form = $('#formNewStore');
   form.attr('novalidate', true);
+
+  // let formG = $('#fGeocoder');
+  // let addresses = $('#geocoderAddresses');
+  // let mapContainer = $('#geocoderMap');
+  // let map = null;
+
+  // let latitude;
+  // let longitude;
+
+  // formG.on('submit', function (event) {
+  //   let formG = $(this);
+  //   $.get(this.action + '?' + formG.serialize()).then(
+  //     function (data) {
+  //       let list = $('<div class="list-group"></div>');
+  //       data.forEach((address) => {
+  //         list.append(`<a href="#" data-lat="${address.lat}" data-lon="${address.lon}" class="list-group-item list-group-item-action">
+	// 						${address.display_name}</a>`);
+  //       });
+  //       addresses.empty();
+  //       addresses.append(list);
+  //       list.find('a').click(function (event) {
+  //         $(this).siblings().removeClass('active');
+  //         $(this).addClass('active');
+  //         if (map) {
+  //           map.setView(new L.LatLng(this.dataset.lat, this.dataset.lon), 15);
+  //         } else {
+  //           mapContainer.css({ height: '350px', border: '2px solid #faa541' });
+  //           map = L.map('geocoderMap').setView([this.dataset.lat, this.dataset.lon], 15);
+  //           L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  //             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+  //             maxZoom: 18
+  //           }).addTo(map);
+  //         }
+  //         L.marker([this.dataset.lat, this.dataset.lon]).addTo(map);
+  //         latitude = this.dataset.lat;
+  //         longitude = this.dataset.lon;
+  //         event.preventDefault();
+  //         event.stopPropagation();
+  //       })
+  //     }, function (error) {
+  //       addresses.empty();
+  //       addresses.append(`<div class="text-danger">
+	// 					<i class="fas fa-exclamation-circle"></i>
+	// 					No se ha podido establecer la conexión con el servidor de mapas.
+	// 				</div>`);
+  //     }
+  //   );
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  // })
+
   form.on('submit', function (event) {
     let isValid = true;
     let firstInvalidElement = null;
-    // if (!this.coords.checkValidity()) {
-    //   isValid = false;
-    //   showFeedBack($(this.coords), false);
-    //   firstInvalidElement = this.coords;
-    // } else {
-    //   showFeedBack($(this.coords), true);
-    // }
+
     if (!this.phone.checkValidity()) {
       isValid = false;
       showFeedBack($(this.phone), false);
@@ -112,6 +157,7 @@ function newStoreValidation(handler) {
   })
   $("#CIF").change(defaultCheckElement);
 }
+
 
 function newProductValidation(handler) {
   let form = $('#formNewProduct');

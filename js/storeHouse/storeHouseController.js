@@ -19,6 +19,16 @@ class StoreHouseController {
   #storeHouseView;
 
   #loadStoreHouseObjects() {
+    fetch("./datos.json")
+      .then(response => {
+        return response.json();
+      }).then(function (data) {
+        let categories = data.cat;
+        let stores = data.store;
+        let pros = data.pro;
+        let gras = data.gra;
+        let rams = data.ram;
+      });
 
     let cat1 = new Category("Gaming RGB", "Componentes destinados al gaming con leds añadidos");
     let cat2 = new Category("Gaming minimal", "Componetes destinados al gaming con un diseño minimalista");
@@ -44,7 +54,6 @@ class StoreHouseController {
     this.#storeHouseModel.addCategory(cat2);
     this.#storeHouseModel.addCategory(cat3);
     this.#storeHouseModel.addProduct(p6, [cat3]);
-    // this.#storeHouseModel.addProduct(p1, [cat1]);
     this.#storeHouseModel.addProduct(p2, [cat2]);
     this.#storeHouseModel.addProduct(p3, [cat3]);
     this.#storeHouseModel.addProduct(p4, [cat1, cat2]);
@@ -82,16 +91,8 @@ class StoreHouseController {
 
   onLoad = () => {
     this.#loadStoreHouseObjects();
-    this.#storeHouseView.showAdministracion();
-    this.#storeHouseView.bindAdministracionMenu(
-      this.handleNewCategoryForm,
-      this.handleRemoveCategoryForm,
-      this.handleNewStoreForm,
-      this.handleRemoveStoreForm,
-      this.handleNewProductForm,
-      this.handleRemoveProductForm,
-      this.handleModStockForm
-    );
+
+    this.onLogin();
   }
 
 
@@ -105,6 +106,31 @@ class StoreHouseController {
     this.#storeHouseView.bindProductsStoreList(this.handleProductsStoreList);
   }
 
+  onLogin = () => {
+    function getCookie(cname) {
+      let re = new RegExp('(?:(?:^|.*;\\s*)' + cname + '\\s*\\=\\s*([^;]*).*$)|^.*$');
+      return document.cookie.replace(re, "$1");
+    }
+    if (!getCookie("username")) {
+      this.#storeHouseView.showLoginMenu();
+      this.#storeHouseView.bindLoginMenu(this.handleLoginForm);
+    } else {
+       this.#storeHouseView.showAdministracion();
+      this.#storeHouseView.bindAdministracionMenu(
+        this.handleNewCategoryForm,
+        this.handleRemoveCategoryForm,
+        this.handleNewStoreForm,
+        this.handleRemoveStoreForm,
+        this.handleNewProductForm,
+        this.handleRemoveProductForm,
+        this.handleModStockForm,
+        this.handleBackup
+      );
+      this.#storeHouseView.showLogoutMenu();
+      this.#storeHouseView.showAdmin();
+      this.#storeHouseView.bindLogoutMenu(this.handleLogout)
+    }
+  }
 
   handleInit = () => {
     this.onInit();
@@ -323,7 +349,7 @@ class StoreHouseController {
     let done = false;
     let error;
     let store = this.#storeHouseModel.getStore(storeName);
-    let product = this.#storeHouseModel.getProductStore(productSerial,store);
+    let product = this.#storeHouseModel.getProductStore(productSerial, store);
     try {
       if (stock > 0) {
         this.#storeHouseModel.addQuantityProductInShop(product.product, store, parseInt(stock));
@@ -335,6 +361,40 @@ class StoreHouseController {
       error = exception;
     }
     this.#storeHouseView.showModStockModal(done, store, product, stock, error);
+  }
+
+  handleLoginForm = () => {
+    this.#storeHouseView.showLoginForm();
+    this.#storeHouseView.bindLogin(this.handleLogin);
+  }
+
+  handleLogin = (user, pass) => {
+    function setCookie(cname, cvalue, exdays) {
+      const d = new Date(); d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      let expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    if (user == "admin" && pass == "admin") {
+      setCookie("username", user, 10);
+    }
+  }
+  handleLogout = () => {
+    function setCookie(cname, cvalue, exdays) {
+      const d = new Date(); d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      let expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    setCookie("username", '', 0);
+  }
+
+  handleBackup = () => {
+    let datos = JSON.stringify(this.#storeHouseModel.categories) + JSON.stringify(this.#storeHouseModel.stores);
+    let fs = require('fs');
+    let fecha = new Date(Date.now()).toDateString();
+    fs.writeFile('./backup/archivo' + fecha + '.json', datos, 'utf8', (err) => {
+      if (err) throw err;
+      console.log('The file has been saved!');
+    });
   }
 }
 

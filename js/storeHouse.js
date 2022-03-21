@@ -20,7 +20,8 @@ const historyActions = {
   removeStore: (event) => StoreHouseApp.handleRemoveStoreForm(),
   newProduct: (event) => StoreHouseApp.handleNewProductForm(),
   removeProduct: (event) => StoreHouseApp.handleRemoveProductForm(),
-  modStock: (event) => StoreHouseApp.handleModStockForm(event.state.store)
+  modStock: (event) => StoreHouseApp.handleModStockForm(event.state.store),
+  login: (event) => StoreHouseApp.handleLoginForm()
 }
 
 window.addEventListener('popstate', function (event) {

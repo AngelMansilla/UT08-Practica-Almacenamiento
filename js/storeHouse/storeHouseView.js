@@ -194,6 +194,7 @@ class StoreHouseView {
       <a id="newProduct" class="dropdown-item" href="#newProduct">Crear producto</a>
       <a id="delProduct" class="dropdown-item" href="#removeProduct">Eliminar producto</a>
       <a id="modStock" class="dropdown-item" href="#modStock">Modificar stock</a>
+      <a id="backup" class="dropdown-item" href="#backup">Backup</a>
     </ul>
     `);
     li.append(container);
@@ -370,20 +371,28 @@ class StoreHouseView {
               <div class="valid-feedback">Correcto.</div>
             </div>
           </div>
-        </div>
-        <div>
-          <label for="coords">Coordenadas </label>
-          <div class="input-group coords">
-            <label for="coords">Latitud </label>
-            <input type="text"  id="latitud" name="latitud" placeholder="Latitud de la tienda" value="">
-            <label for="coords">Longitud </label>
-            <input type="text"  id="longitud" name="longitud" placeholder="Longitud de la tienda" value="">
-            <div class="invalid-feedback">Coordenadas incorrectas</div>
-            <div class="valid-feedback">Correcto.</div>
-          </div>
-        </div>
-        <button class="btn btn-primary justify-content: center;" type="submit">Añadir</button>
-        <button class="btn btn-primary row-auto" type="reset" id="reset">Resetear</button>
+        </div>`+
+        // <div class="container p-4">
+        //   <form id="fGeocoder" method="get" action="https://nominatim.openstreetmap.org/search">
+        //     <input type="hidden" name="format" value="json">
+        //     <input type="hidden" name="limit" value="3">
+        //     <h2>Selecciona ubicacion</h2>
+        //     <div class="form-group row">
+        //       <div class="col-sm-10">
+        //         <label for="address" class="col-form-label">Dirección</label>
+        //         <input type="text" name="q" class="form-control" id="address" placeholder="Introduce la dirección a buscar">
+        //       </div>
+        //       <div class="col-sm-2 align-self-end">
+        //         <button id="bAddress" class="btn btn-primary" type="submit">Buscar</button>
+        //       </div>
+        //     </div>
+        //     <div id="geocoderAddresses"></div>
+        //     <div id="geocoderMap" class="my-2"></div>
+        //   </form>
+		    // </div>
+        `
+        <button class="btn btn-primary mb-2" type="submit">Añadir</button>
+        <button class="btn btn-primary" type="reset" id="reset">Resetear</button>
       </form>
     </section>
     `);
@@ -760,7 +769,7 @@ class StoreHouseView {
     let form = $('#formModStock');
     listContainer.empty();
     let container = $(`
-    <div id="mod-stock" class="container my-3">
+    <div id="mod-stock-list" class="container my-3">
 			<div class="form-row">
 				<div class="col-md-6 mb-3">
 					<label for="product">Productos</label>
@@ -809,7 +818,7 @@ class StoreHouseView {
 							</button>
 						</div>
 						<div class="modal-body">
-							El stock del producto <strong>`+product.product.name+` de la tienda `+store.name+`</strong> ha sido modificado correctamente a <strong>`+stock+`</strong>.
+							El stock del producto <strong>`+ product.product.name + ` de la tienda ` + store.name + `</strong> ha sido modificado correctamente a <strong>` + stock + `</strong>.
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
@@ -826,13 +835,64 @@ class StoreHouseView {
         });
         modStockModal.modal('hide');
         //Borrar de opciones del producto
-        if(stock==='0'){
+        if (stock === '0') {
           $("option[value='" + product.product.serialNumber + "']").remove();
         }
       })
     } else {
       $('#mod-stock').prepend(`<div class="error text-danger p-3"><i class="fas fa-exclamation-triangle"></i>No se pudo modificar el stock.</div>`);
     }
+  }
+  showLoginMenu() {
+    let menu = $('#menu');
+    let container = $(`
+    <li class=nav-item>
+      <a class=nav-link href='#login' id='loginMenu'>Login</a>
+    </li>
+    `);
+    menu.append(container);
+  }
+
+  showLoginForm() {
+    this.main.empty();
+    let container = $(`
+     <div id="login" class="container my-3">
+			<h1 class="display-5">Login</h1>
+      <form id="loginForm" name="login" method="get">
+        <div class="input-group form-group mt-3">
+          <input id="user" type="text" class="form-control text-center p-3"
+          placeholder="Usuario" name="username">
+        </div>
+        <div class="input-group form-group mt-3">
+          <input id="pass" type="password" class="form-control text-center p-3"
+          placeholder="Contraseña" name="password">
+        </div>
+        <div class="text-center">
+          <input id="acceder" type="submit" value="Acceder"
+          class="btn btn-primary mt-3 w-100 p-2" name="login-btn">
+        </div>
+      </form>
+    </div>
+    `);
+    this.main.append(container);
+  }
+
+  showAdmin() {
+    let menu = $('#menu');
+    let container = $(`
+    <p class="text-info position-absolute top-0 end-0">Hola Admin</p>
+    `);
+    menu.append(container);
+  }
+
+  showLogoutMenu() {
+    let menu = $('#menu');
+    let container = $(`
+    <li class=nav-item>
+      <a class=nav-link href='#' id='logoutMenu'>Logout</a>
+    </li>
+    `);
+    menu.append(container);
   }
 
   bindInit(handler) {
@@ -955,7 +1015,7 @@ class StoreHouseView {
     })
   }
 
-  bindAdministracionMenu(handlerNewCategory, handlerRemoveCategory, handlerNewStore, handlerRemoveStore, handlerNewProduct, handlerRemoveProduct, handlerModStock) {
+  bindAdministracionMenu(handlerNewCategory, handlerRemoveCategory, handlerNewStore, handlerRemoveStore, handlerNewProduct, handlerRemoveProduct, handlerModStock, handlerBackup) {
     $('#newCategory').click((event) => {
       this.#excecuteHandler(
         handlerNewCategory,
@@ -1019,6 +1079,9 @@ class StoreHouseView {
         '#mod-stock',
         event);
     });
+    $('#backup').click((event) => {
+      handlerBackup();
+    });
   }
 
   bindNewCategoryForm(handler) {
@@ -1073,6 +1136,31 @@ class StoreHouseView {
     $('#modificar').click(function (event) {
       handler($('#msStore').val(), $('#product').val(), $('#stock').val());
       event.preventDefault();
+    });
+  }
+
+  bindLoginMenu(handler) {
+    $('#loginMenu').click((event) => {
+      this.#excecuteHandler(
+        handler,
+        [],
+        '#loginMenu',
+        { action: 'loginMenu' },
+        '#loginForm',
+        event);
+    });
+  }
+
+  bindLogin(handler) {
+    $('#acceder').click(function (event) {
+      handler($("#user").val(), $("#pass").val());
+    });
+  }
+
+  bindLogoutMenu(handler) {
+    $('#logoutMenu').click(function (event) {
+      handler();
+      location.reload();
     });
   }
 

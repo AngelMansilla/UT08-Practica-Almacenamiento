@@ -1,0 +1,113 @@
+{
+  "cat": [
+    {
+      "title": "Gaming RGB",
+      "description": "Componentes destinados al gaming con leds añadidos"
+    },
+    {
+      "title": "Gaming minimal",
+      "description": "Componetes destinados al gaming con un diseño minimalista"
+    },
+    {
+      "title": "Ofimatica",
+      "description": "Componentes destinados para un uso básico"
+    }
+  ],
+  "store": [
+    {
+      "CIF": "12345",
+      "name": "Amazon",
+      "address:": "Ramirez de prado, 5, 28045, Madrid, Madrid, España",
+      "phone": "34697632123",
+      "coords": "7698769.3, 647"
+    },
+    {
+      "CIF": "54321",
+      "name": "PC Componentes",
+      "address:": "Avenida de Europa (pg ind las Salinas Parc. 2-5 y 2-6), , Alhama de Murcia, Murcia, España",
+      "phone": "34785723102",
+      "coords": "54231.23, 15423.2"
+    },
+    {
+      "CIF": "32145",
+      "name": "Aliexpress",
+      "address:": "Carrer de Laureà Miró, 20, 08950 Esplugues de Llobregat, Barcelona, España.",
+      "phone": "34612321102",
+      "coords": "143, 23"
+    }
+  ],
+  "pro": [
+    {
+      "serialNumber": "432214321423",
+      "name": "I5 10400F",
+      "description": "Not bad",
+      "price": "125",
+      "tax": "21",
+      "images": "i510400f.png",
+      "speed": "2.9GHz",
+      "socket": "LG20",
+      "chipset": "R300",
+      "graphics": "No"
+    },
+    {
+      "serialNumber": "13141111",
+      "name": "I5 12400F",
+      "description": "So good",
+      "price": "1225",
+      "tax": "21",
+      "images": "i512400f.png",
+      "speed": "3.5GHz",
+      "socket": "LG20",
+      "chipset": "R300",
+      "graphics": "No"
+    }
+  ],
+  "gra": [
+    {
+      "serialNumber": "432214321429",
+      "name": "3080 ti",
+      "description": "So good",
+      "price": "1225",
+      "tax": "21",
+      "images": "3080.png",
+      "brand": "NVIDIA",
+      "model": "basic",
+      "memory": "10GB"
+    },
+    {
+      "serialNumber": "23423151234",
+      "name": "3060 ti",
+      "description": "good",
+      "price": "525",
+      "tax": "21",
+      "images": "3060ti.png",
+      "brand": "NVIDIA",
+      "model": "TI1",
+      "memory": "8GB"
+    }
+  ],
+  "ram": [
+    {
+      "serialNumber": "14321423",
+      "name": "Kingstom",
+      "description": "Bad",
+      "price": "35",
+      "tax": "21",
+      "images": "kingstom8gb.png",
+      "technology": "DDR2",
+      "capacity": "8GB",
+      "speed": "2666MHz"
+    },
+    {
+      "serialNumber": "413531",
+      "name": "ASUS",
+      "description": "Not bad",
+      "price": "55",
+      "tax": "21",
+      "images": "asus4gb.png",
+      "technology": "DDR2",
+      "capacity": "4GB",
+      "speed": "2666MHz"
+    }
+  ]
+}

@@ -114,7 +114,6 @@ class Processor extends Product {
   #socket;
   #chipset;
   #graphics;
-  #type = "processor";
   constructor(serialNumber, name, description, price, tax = Product.IVA, images, speed = "0GHz", socket = "Unknow", chipset = "Unknow", graphics = "No") {
     //La función se invoca con el operador new
     if (!new.target) throw new InvalidAccessConstructorException();
@@ -133,10 +132,7 @@ class Processor extends Product {
     this.#graphics = graphics;
   }
 
-  //Propiedades de acceso a los atributos privados
-  get type() {
-    return this.#type;
-  }
+
 
   get speed() {
     return this.#speed;
@@ -185,7 +181,6 @@ class Graphic_Card extends Product {
   #brand;
   #model;
   #memory;
-  #type = "graphic_card";
   constructor(serialNumber, name, description, price, tax = Product.IVA, images, brand = "Unknown", model = "Unknown", memory = "0GB") {
     //La función se invoca con el operador new
     if (!new.target) throw new InvalidAccessConstructorException();
@@ -204,10 +199,7 @@ class Graphic_Card extends Product {
     this.#memory = memory;
   }
 
-  //Propiedades de acceso a los atributos privados
-  get type() {
-    return this.#type;
-  }
+
 
   get brand() {
     return this.#brand;
@@ -249,7 +241,6 @@ class RAM extends Product {
   #technology;
   #capacity;
   #speed;
-  #type = "ram";
   constructor(serialNumber, name, description, price, tax = Product.IVA, images, technology = "Unknown", capacity = "0GB", speed = "0MHz") {
     //La función se invoca con el operador new
     if (!new.target) throw new InvalidAccessConstructorException();
@@ -268,10 +259,6 @@ class RAM extends Product {
     this.#speed = speed;
   }
 
-  //Propiedades de acceso a los atributos privados
-  get type() {
-    return this.#type;
-  }
   get technology() {
     return this.#technology;
   }
